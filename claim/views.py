@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render
 
-from django.http import HttpResponse
+from django.http import HttpResponse,HttpResponseRedirect
 # Create your views here.
 from django.views.generic.edit import FormView
 from .forms import ImageForm,PostForm
@@ -35,9 +35,12 @@ def post_picture(request):
             post_form.save()
 
             for form in formset.cleaned_data:
+                #try:
                 image = form['image']
-                photo = Images(post=post_form, image=image)
+                photo = Images(image=image)
                 photo.save()
+                #except:
+                #    pass
             #messages.success(request,
             #                 "Yeeew,check it out on the home page!")
             return HttpResponseRedirect("/")

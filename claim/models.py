@@ -3,6 +3,8 @@ from __future__ import unicode_literals
 
 from django.db import models
 
+from django.template.defaultfilters import slugify
+
 # Create your models here.
 
 class Claim(models.Model):
@@ -25,19 +27,19 @@ class Claim(models.Model):
 
 
 def get_image_filename(instance, filename):
-    title = instance.post.title
+    title = instance.claim
     slug = slugify(title)
     return "post_images/%s-%s" % (slug, filename)  
 
 class Post(models.Model):
-    claim = models.ForeignKey(Claim)
+    claim = models.ForeignKey(Claim,null=True)
     title = models.CharField(max_length=128)
     #body = models.CharField(max_length=400)
 
 class Images(models.Model):
-    claim = models.ForeignKey(Claim, default=None)
+    claim = models.ForeignKey(Claim,null = True)
     image = models.ImageField(upload_to=get_image_filename,
-                              verbose_name='Image', )
+                              verbose_name='image', )
 
 class InsuranceCompany(models.Model):
 	name = models.CharField(max_length = 100)
