@@ -25,8 +25,11 @@ SECRET_KEY = '^opv7@(0@9g3f@+1&4df8edutr9hv&=zyoz%m!bm#vw1fo#^jq'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0']
-
+if DEBUG:
+    ALLOWED_HOSTS = '*'
+else:
+    # TODO: Fill website ip
+    ALLOWED_HOSTS = ['']
 
 # Application definition
 
@@ -38,7 +41,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'claim',
+    'KuaiChuBao.modules.claim',
 )
 
 MIDDLEWARE_CLASSES = (

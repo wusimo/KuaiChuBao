@@ -16,8 +16,9 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 
-urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^claim/',include('claim.urls')),
+from KuaiChuBao.modules.claim import urls as claim_urls
 
+urlpatterns = [
+	url(r'^admin/', include(admin.site.urls)),
+	url(r'^claim/', include(claim_urls)),
 ]
