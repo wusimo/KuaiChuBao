@@ -126,3 +126,7 @@ JustTrade/JustTrade/modules/strategies/migrations/*
 KuaiChuBao/claim/migrations/*
 !KuaiChuBao/claim/migrations/__init.py
 
+
+env-kcb/
+
+KuaiChuBao/modules/claim/migrations/0001_initial\.py
