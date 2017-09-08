@@ -26,48 +26,41 @@
     <div class="page-title pt-2 pb-2 mb-3">
         <div class="container">
             <div class="column">
-                <h1>选择事故类型</h1>
+                <h1>步骤 {{ step }}</h1>
             </div>
         </div>
     </div>
     <!-- Page Content-->
     <div class="container padding-bottom-3x mb-1">
-        <!-- Products Grid-->
-        <div class="isotope-grid cols-4 mb-2">
-            <div class="gutter-sizer"></div>
-            <div class="grid-sizer"></div>
-            <!-- Product-->
-            <div class="grid-item">
-                <div class="product-card">
-                    <!--<a class="product-thumb" href="shop-single.html"><img src="img/shop/products/01.jpg" alt="Product"></a>-->
-                    <h3 class="product-title"><a href="/claim/user?type=danche">单车事故</a></h3>
-                    <div class="product-buttons">
-                        <a class="btn btn-outline-primary btn-sm" href="/claim/user?type=danche">选择
-                        </a>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="hidden-md-up"></div>
+                <p>{{ step_name }}</p>
+                <form class="row" method="post" action="/claim/user">
+                    {% csrf_token %}
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="name">真实姓名</label>
+                            <input class="form-control" type="text" id="name" required="">
+                        </div>
                     </div>
-                </div>
-            </div>
-            <!-- Product-->
-              <div class="grid-item">
-                <div class="product-card">
-                    <!--<a class="product-thumb" href="shop-single.html"><img src="img/shop/products/01.jpg" alt="Product"></a>-->
-                    <h3 class="product-title"><a href="/claim/user?type=guaca">两车刮擦事故</a></h3>
-                    <div class="product-buttons">
-                        <a class="btn btn-outline-primary btn-sm" href="/claim/user?type=guaca">选择
-                        </a>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="national_id">身份证号码</label>
+                            <input class="form-control" type="text" id="national_id" required="">
+                        </div>
                     </div>
-                </div>
-            </div>
-            <!-- Product-->
-            <div class="grid-item">
-                <div class="product-card">
-                    <!--<a class="product-thumb" href="shop-single.html"><img src="img/shop/products/01.jpg" alt="Product"></a>-->
-                    <h3 class="product-title"><a href="/claim/user?type=zhuiwei">两车追尾事故</a></h3>
-                    <div class="product-buttons">
-                        <a class="btn btn-outline-primary btn-sm" href="/claim/user?type=zhuiwei">选择
-                        </a>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="phone">电话</label>
+                            <input class="form-control" type="text" id="phone" required="">
+                        </div>
                     </div>
-                </div>
+                    <div class="col-12 text-center text-sm-right">
+                        <a class="btn btn-outline-primary btn-sm" href="/claim">返回</a>
+                        <button class="btn btn-primary btn-sm" type="submit">下一步</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

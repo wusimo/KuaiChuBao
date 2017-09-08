@@ -21,52 +21,44 @@
 </head>
 <!-- Body-->
 <body>
+<div class="modal fade" id="modalDefault" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Modal title</h4>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body">
+                <p>Modal body text goes here.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline-secondary btn-sm" type="button" data-dismiss="modal">Close</button>
+                <button class="btn btn-primary btn-sm" type="button">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="offcanvas-wrapper">
     <!-- Page Title-->
     <div class="page-title pt-2 pb-2 mb-3">
         <div class="container">
             <div class="column">
-                <h1>选择事故类型</h1>
+                <h1>选择保险公司</h1>
             </div>
         </div>
     </div>
     <!-- Page Content-->
     <div class="container padding-bottom-3x mb-1">
-        <!-- Products Grid-->
-        <div class="isotope-grid cols-4 mb-2">
-            <div class="gutter-sizer"></div>
-            <div class="grid-sizer"></div>
-            <!-- Product-->
-            <div class="grid-item">
-                <div class="product-card">
-                    <!--<a class="product-thumb" href="shop-single.html"><img src="img/shop/products/01.jpg" alt="Product"></a>-->
-                    <h3 class="product-title"><a href="/claim/user?type=danche">单车事故</a></h3>
-                    <div class="product-buttons">
-                        <a class="btn btn-outline-primary btn-sm" href="/claim/user?type=danche">选择
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <!-- Product-->
-              <div class="grid-item">
-                <div class="product-card">
-                    <!--<a class="product-thumb" href="shop-single.html"><img src="img/shop/products/01.jpg" alt="Product"></a>-->
-                    <h3 class="product-title"><a href="/claim/user?type=guaca">两车刮擦事故</a></h3>
-                    <div class="product-buttons">
-                        <a class="btn btn-outline-primary btn-sm" href="/claim/user?type=guaca">选择
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <!-- Product-->
-            <div class="grid-item">
-                <div class="product-card">
-                    <!--<a class="product-thumb" href="shop-single.html"><img src="img/shop/products/01.jpg" alt="Product"></a>-->
-                    <h3 class="product-title"><a href="/claim/user?type=zhuiwei">两车追尾事故</a></h3>
-                    <div class="product-buttons">
-                        <a class="btn btn-outline-primary btn-sm" href="/claim/user?type=zhuiwei">选择
-                        </a>
-                    </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="hidden-md-up"></div>
+                <div class="col-md-12 margin-bottom-2x">
+                    <nav class="list-group">
+                        <a class="list-group-item" href="#">保险公司A</a>
+                        <a class="list-group-item" href="#">Dapibus ac facilisis in</a>
+                        <a class="list-group-item" href="#">Porta ac consectetur ac</a>
+                        <a class="list-group-item" href="#">Vestibulum at eros</a>
+                    </nav>
                 </div>
             </div>
         </div>

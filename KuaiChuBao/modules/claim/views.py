@@ -4,17 +4,53 @@ from __future__ import unicode_literals
 from django.shortcuts import render
 from KuaiChuBao.settings import BASE_DIR
 
-# from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 
 # from .forms import ImageForm, PostForm
 # from django.forms import modelformset_factory
 
+from .models import UserInfo
+
 
 def landing(request):
 	# formset = ImageFormSet(queryset=Images.objects.none())
+	if request.session.get('type', False) and request.session.get('step', False):
+		return HttpResponseRedirect('/claim/upload')
+	elif request.session.get('type', False):
+		return HttpResponseRedirect('/claim/user')
+	else:
+		return render(request, 'landing.html')
 
-	print BASE_DIR
-	return render(request, 'landing.html')
+
+def user_register(request):
+	if request.method == 'GET':
+		if request.GET.get('type', False):
+			request.session['type'] = request.GET.get('type')
+			return render(request, 'userRegster.html')
+		elif request.session.get('type', False):
+			request.session['type'] = request.GET.get('type')
+			return render(request, 'userRegster.html')
+		else:
+			return render(request, '404.html')
+	elif request.method == 'POST':
+		if request.GET.get('name', False) and request.GET.get('national_id', False) and request.GET.get('phone', False):
+			user = UserInfo.objects.get_or_create(
+				national_id_number=request.GET.get('national_id', False),
+			)
+			user.name = request.GET.get('name')
+			user.phone = request.GET.get('phone')
+			user.save()
+			request.session['step'] = 0
+			return HttpResponseRedirect('/claim/upload')
+
+
+def image_upload(request):
+	if request.session.get('type', False) and request.session.get('step', False):
+		pass
+
+
+def insurance_company(request):
+	return render(request, 'insuranceCompany.html')
 
 #
 # def post_picture(request):

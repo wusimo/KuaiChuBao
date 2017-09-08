@@ -7,13 +7,15 @@ from django.db import models
 class UserInfo(models.Model):
 	name = models.CharField(max_length=200)
 	phone = models.CharField(max_length=200)
-	national_id_number = models.CharField(max_length=200)
-	driver_license_number = models.CharField(max_length=200)
+	national_id_number = models.CharField(max_length=200, unique=True)
+	driver_license_number = models.CharField(max_length=200, null=True, blank=True)
 
-	national_id_copy_top = models.ImageField(upload_to='users/national_id')
-	national_id_copy_down = models.ImageField(upload_to='users/national_id')
-	driver_license_copy_top = models.ImageField(upload_to='users/driver_license')
-	driver_license_copy_down = models.ImageField(upload_to='users/driver_license')
+	national_id_top = models.ImageField(upload_to='users/national_id', null=True, blank=True)
+	national_id_down = models.ImageField(upload_to='users/national_id', null=True, blank=True)
+	driver_license_top = models.ImageField(upload_to='users/driver_license', null=True, blank=True)
+	driver_license_down = models.ImageField(upload_to='users/driver_license', null=True, blank=True)
+	road_worthiness_certificate_top = models.ImageField(upload_to='users/road_worthiness_certificate', null=True, blank=True)
+	road_worthiness_certificate_down = models.ImageField(upload_to='users/road_worthiness_certificate', null=True, blank=True)
 
 	# relations
 	# 1. claims
@@ -25,7 +27,8 @@ class UserInfo(models.Model):
 class InsuranceCompany(models.Model):
 	name = models.CharField(max_length=200)
 	phone = models.CharField(max_length=200)
-	url = models.CharField(max_length=200)
+	url = models.CharField(max_length=200, null=True, blank=True)
+	logo = models.ImageField(upload_to='companies_logo/', null=True, blank=True)
 
 	# relations
 	# 1. claims
