@@ -10,10 +10,10 @@ class UserInfo(models.Model):
 	national_id_number = models.CharField(max_length=200)
 	driver_license_number = models.CharField(max_length=200)
 
-	national_id_copy_top = models.ImageField(upload_to='/users/national_id')
-	national_id_copy_down = models.ImageField(upload_to='/users/national_id')
-	driver_license_copy_top = models.ImageField(upload_to='/users/driver_license')
-	driver_license_copy_down = models.ImageField(upload_to='/users/driver_license')
+	national_id_copy_top = models.ImageField(upload_to='users/national_id')
+	national_id_copy_down = models.ImageField(upload_to='users/national_id')
+	driver_license_copy_top = models.ImageField(upload_to='users/driver_license')
+	driver_license_copy_down = models.ImageField(upload_to='users/driver_license')
 
 	# relations
 	# 1. claims
@@ -61,7 +61,7 @@ class Claim(models.Model):
 
 class Image(models.Model):
 	claim = models.ForeignKey(Claim, related_name='images')
-	image = models.ImageField(upload_to='/claims')
+	image = models.ImageField(upload_to='claims')
 	# time stamp
 	created = models.DateTimeField(auto_now_add=True)
 
