@@ -26,27 +26,85 @@ def user_register(request):
 	if request.method == 'GET':
 		if request.GET.get('type', False):
 			request.session['type'] = request.GET.get('type')
-			return render(request, 'userRegster.html')
+			return render(request, 'userRegister.html')
 		elif request.session.get('type', False):
 			request.session['type'] = request.GET.get('type')
-			return render(request, 'userRegster.html')
+			return render(request, 'userRegister.html')
 		else:
 			return render(request, '404.html')
+
 	elif request.method == 'POST':
-		if request.GET.get('name', False) and request.GET.get('national_id', False) and request.GET.get('phone', False):
-			user = UserInfo.objects.get_or_create(
-				national_id_number=request.GET.get('national_id', False),
+		if request.POST.get('name', False) and request.POST.get('national_id', False) and request.POST.get('phone', False):
+			user, create = UserInfo.objects.get_or_create(
+				national_id_number=request.POST.get('national_id'),
 			)
-			user.name = request.GET.get('name')
-			user.phone = request.GET.get('phone')
+			user.name = request.POST.get('name'),
+			user.phone = request.POST.get('phone')
 			user.save()
-			request.session['step'] = 0
+			request.session['step'] = 1
+			request.session['user_id'] = user.id
 			return HttpResponseRedirect('/claim/upload')
 
 
 def image_upload(request):
+	type_step = {
+		'danche' : ['站在事故车辆前45度角，10米处拍照。如下图：',
+		            '站在事故车辆前45度角，5米处拍照。如下图：',
+		            '站在事故车辆前45度角，1米处拍照。如下图：',
+		            '站在事故车辆后45度角，10米处拍照。如下图：',
+		            '站在事故车辆后45度角，5米处拍照。如下图：',
+		            '站在事故车辆后45度角，1米处拍照。如下图：',
+		            '在事故车辆前挡风玻璃处拍照车辆识别代号。如下图：',
+		            '车辆移开后对准车辆受损部位和擦刮物体部位拍照。如下图：',
+		            '人车合影，站在事故车辆前方或后方，拿手机对准自己和事故车辆拍照，必须照下事故车辆的号牌。如下图：',
+		            '拿出行车证拍照。如下图：',
+		            '拿出驾驶证拍照。如下图：',
+		            '拿出被保险人身份证正面拍照。如下图：',
+		            '拿出被保险人身份证反面拍照。如下图：',
+		            '拿出被被保险人银行卡拍照。如下图：'
+		            ],
+		'guaca'  : ['站在事故车辆前45度角，10米处拍照。如下图：',
+		            '站在事故车辆前45度角，5米处拍照。如下图：',
+		            '站在事故车辆前45度角，1米处拍照。如下图：',
+		            '站在事故车辆后45度角，10米处拍照。如下图：',
+		            '站在事故车辆后45度角，5米处拍照。如下图：',
+		            '站在事故车辆后45度角，1米处拍照。如下图：',
+		            '在事故车辆前挡风玻璃处拍照车辆识别代号。如下图：',
+		            '车辆移开后对准己方车辆受损部位和擦刮物体部位拍照。如下图：',
+		            '车辆移开后对准对方车辆受损部位和擦刮物体部位拍照。如下图：',
+		            '人车合影，站在事故车辆前方或后方，拿手机对准自己和事故车辆拍照，必须照下事故车辆的号牌。如下图：',
+		            '拿出行车证拍照。如下图：',
+		            '拿出驾驶证拍照。如下图：',
+		            '拿出被保险人身份证拍照。如下图：',
+		            '拿出被被保险人银行卡拍照。如下图：'
+		            ],
+		'zhuiwei': ['站在事故车辆前45度角，10米处拍照。如下图：',
+		            '站在事故车辆前45度角，5米处拍照。如下图：',
+		            '站在事故车辆前45度角，1米处拍照。如下图：',
+		            '站在事故车辆后45度角，10米处拍照。如下图：',
+		            '站在事故车辆后45度角，5米处拍照。如下图：',
+		            '站在事故车辆后45度角，1米处拍照。如下图：',
+		            '在事故车辆前挡风玻璃处拍照车辆识别代号。如下图：',
+		            '车辆移开后对准己方车辆受损部位和擦刮物体部位拍照。如下图：',
+		            '车辆移开后对准对方车辆受损部位和擦刮物体部位拍照。如下图：',
+		            '人车合影，站在事故车辆前方或后方，拿手机对准自己和事故车辆拍照，必须照下事故车辆的号牌。如下图：',
+		            '拿出行车证拍照。如下图：',
+		            '拿出驾驶证拍照。如下图：',
+		            '拿出被保险人身份证拍照。如下图：',
+		            '拿出被被保险人银行卡拍照。如下图：'
+		            ],
+	}
+
 	if request.session.get('type', False) and request.session.get('step', False):
-		pass
+		type = request.session.get('type', False)
+		step = request.session.get('step', False)
+		step_name = type_step[type][step - 1]
+		img_url = 'img/' + type + '/' + str(step) + '.png'
+
+		return render(request, 'imageUpload.html', {'type'     : type,
+		                                            'step'     : step,
+		                                            'step_name': step_name,
+		                                            'img_url'  : img_url})
 
 
 def insurance_company(request):

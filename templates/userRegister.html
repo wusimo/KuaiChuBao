@@ -21,29 +21,12 @@
 </head>
 <!-- Body-->
 <body>
-<div class="modal fade" id="modalDefault" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Modal title</h4>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-            </div>
-            <div class="modal-body">
-                <p>Modal body text goes here.</p>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-outline-secondary btn-sm" type="button" data-dismiss="modal">Close</button>
-                <button class="btn btn-primary btn-sm" type="button">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div>
 <div class="offcanvas-wrapper">
     <!-- Page Title-->
     <div class="page-title pt-2 pb-2 mb-3">
         <div class="container">
             <div class="column">
-                <h1>选择保险公司</h1>
+                <h1>身份登记</h1>
             </div>
         </div>
     </div>
@@ -52,14 +35,32 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="hidden-md-up"></div>
-                <div class="col-md-12 margin-bottom-2x">
-                    <nav class="list-group">
-                        <a class="list-group-item active" href="#">保险公司A</a>
-                        <a class="list-group-item" href="#">保险公司B</a>
-                        <a class="list-group-item" href="#">保险公司C</a>
-                        <a class="list-group-item" href="#">保险公司D</a>
-                    </nav>
-                </div>
+                <p>您的所有信息我们都会加密保存，绝不外泄</p>
+                <form class="row" method="post" action="/claim/user">
+                    {% csrf_token %}
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="name">真实姓名</label>
+                            <input class="form-control" type="text" id="name" name="name" required="">
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="national_id">身份证号码</label>
+                            <input class="form-control" type="text" id="national_id" name="national_id" required="">
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label for="phone">电话</label>
+                            <input class="form-control" type="text" id="phone" name="phone" required="">
+                        </div>
+                    </div>
+                    <div class="col-12 text-center text-sm-right">
+                        <a class="btn btn-outline-primary btn-sm" href="/claim">返回</a>
+                        <button class="btn btn-primary btn-sm" type="submit">下一步</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

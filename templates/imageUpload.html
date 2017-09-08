@@ -15,7 +15,7 @@
     <!-- Vendor Styles including: Bootstrap, Font Icons, Plugins, etc.-->
     <link rel="stylesheet" media="screen" href="{% get_static_prefix %}css/vendor.min.css">
     <!-- Main Template Styles-->
-    <link id="mainStyles" rel="stylesheet" media="screen" href="{% get_static_prefix %}css/styles.min.css">
+    <link id="mainStyles" rel="stylesheet" media="screen" href="{% get_static_prefix %}css/styles.css">
     <!-- Modernizr-->
     <script src="{% get_static_prefix %}js/modernizr.min.js"></script>
 </head>
@@ -33,36 +33,25 @@
     <!-- Page Content-->
     <div class="container padding-bottom-3x mb-1">
         <div class="row">
-            <div class="col-md-12">
-                <div class="hidden-md-up"></div>
-                <p>{{ step_name }}</p>
-                <form class="row" method="post" action="/claim/user">
-                    {% csrf_token %}
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="name">真实姓名</label>
-                            <input class="form-control" type="text" id="name" required="">
-                        </div>
-                    </div>
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="national_id">身份证号码</label>
-                            <input class="form-control" type="text" id="national_id" required="">
-                        </div>
-                    </div>
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label for="phone">电话</label>
-                            <input class="form-control" type="text" id="phone" required="">
-                        </div>
-                    </div>
-                    <div class="col-12 text-center text-sm-right">
-                        <a class="btn btn-outline-primary btn-sm" href="/claim">返回</a>
-                        <button class="btn btn-primary btn-sm" type="submit">下一步</button>
-                    </div>
-                </form>
+
+            <div class="col-sm-12">
+                <p><span class="text-bold">示例</span>: {{ step_name }}</p>
+                <img src="{% get_static_prefix %}{{ img_url }}">
             </div>
         </div>
+        <div class="row text-center">
+            <div class="col-sm-12 mt-4">
+                <div class="custom-file">
+                    <input class="custom-file-input" type="file" id="file-input">
+                    <span class="custom-file-control text-left">点此拍照</span>
+                </div>
+            </div>
+            <div class="col-sm-12 text-center text-sm-right mt-4">
+                <a class="btn btn-outline-primary btn-sm" href="/claim">返回</a>
+                <button class="btn btn-primary btn-sm" type="submit">下一步</button>
+            </div>
+        </div>
+
     </div>
     <!-- Site Footer-->
     <footer class="site-footer mt-5 pt-2">

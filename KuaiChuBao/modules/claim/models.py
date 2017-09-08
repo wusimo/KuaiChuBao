@@ -5,8 +5,8 @@ from django.db import models
 
 
 class UserInfo(models.Model):
-	name = models.CharField(max_length=200)
-	phone = models.CharField(max_length=200)
+	name = models.CharField(max_length=200, null=True, blank=True)
+	phone = models.CharField(max_length=200, null=True, blank=True)
 	national_id_number = models.CharField(max_length=200, unique=True)
 	driver_license_number = models.CharField(max_length=200, null=True, blank=True)
 
