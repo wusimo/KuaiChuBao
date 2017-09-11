@@ -134,8 +134,11 @@ def image_upload(request):
  			#    pass
  			# messages.success(request,
  			#                 "Yeeew,check it out on the home page!")
- 			step = request.session.get('step', False)+1
-			step_name = type_step[type][step - 1]
+ 			step = request.session.get('step', False)
+ 			step_name = type_step[type][step - 1]
+ 			request.session['step']=step+1
+ 			print step
+			
 			img_url = 'img/' + type + '/' + str(step) + '.png'
 
  			return render(request, 'imageUpload.html', {'type'     : type,
@@ -165,7 +168,7 @@ def image_upload(request):
 		type = request.session.get('type', False)
 		step = request.session.get('step', False)
 		step_name = type_step[type][step - 1]
-		img_url = 'img/' + type + '/' + str(step) + '.png'
+		img_url = 'img/' + type + '/' + str(step-1) + '.png'
 
 		return render(request, 'imageUpload.html', {'type'     : type,
 		                                            'step'     : step,
