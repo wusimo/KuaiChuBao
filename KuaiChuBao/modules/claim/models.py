@@ -47,11 +47,11 @@ class Claim(models.Model):
 		(2, '两车刮擦事故'),
 		(3, '两车追尾事故'),
 	)
-	company = models.ForeignKey(InsuranceCompany, related_name='claims')
-	plate = models.CharField(max_length=200)
-	time = models.DateTimeField(max_length=200)
-	location = models.CharField(max_length=200)
-	user = models.ForeignKey(UserInfo, related_name='claims')
+	company = models.ForeignKey(InsuranceCompany, related_name='claims',null = True)
+	plate = models.CharField(max_length=200,null = True)
+	time = models.DateTimeField(max_length=200,null = True)
+	location = models.CharField(max_length=200,null = True)
+	user = models.ForeignKey(UserInfo, related_name='claims',null = True)
 	# time stamp
 	created = models.DateTimeField(auto_now_add=True)
 
@@ -59,7 +59,8 @@ class Claim(models.Model):
 	# 1. images
 
 	def __str__(self):
-		return self.user.name + ' ' + self.created.strftime('%Y-%m-%d %H:%M')
+		# this has some problem
+		return self.user.name + ' ' #+ self.created.strftime('%Y-%m-%d %H:%M')
 
 
 class Image(models.Model):

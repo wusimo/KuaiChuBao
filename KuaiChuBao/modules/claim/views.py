@@ -9,7 +9,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from .forms import ImageForm, PostForm
 from django.forms import modelformset_factory
 
-from .models import UserInfo,Image
+from .models import UserInfo,Image,Claim
 
 
 def landing(request):
@@ -48,39 +48,7 @@ def user_register(request):
 
 def image_upload(request):
 
-	ImageFormSet = modelformset_factory(Image,
- 	                                    form=ImageForm, extra=1)
 
- 	if request.method == 'POST':
- 		print "here"
- 		#postForm = PostForm(request.POST)
- 		formset = ImageFormSet(request.POST, request.FILES,
- 		                       queryset=Image.objects.none())
-
- 		if  formset.is_valid(): #postForm.is_valid() and
-
- 			# add a new claim and link the posted form with claim
- 			#post_form = postForm.save(commit=False)
- 			#post_form.save()
-
- 			for form in formset.cleaned_data:
- 				# try:
- 				image = form['image']
- 				photo = Image(image=image)
- 				photo.save()
- 			# except:
- 			#    pass
- 			# messages.success(request,
- 			#                 "Yeeew,check it out on the home page!")
- 			return HttpResponseRedirect("/")
- 		else:
- 			print  formset.errors #postForm.errors,
-
- 		return
-
- 	else:
- 		#postForm = PostForm()
- 		formset = ImageFormSet(queryset=Image.objects.none())
 	type_step = {
 		'danche' : ['站在事故车辆前45度角，10米处拍照。如下图：',
 		            '站在事故车辆前45度角，5米处拍照。如下图：',
@@ -128,6 +96,70 @@ def image_upload(request):
 		            '拿出被被保险人银行卡拍照。如下图：'
 		            ],
 	}
+
+	if request.session.get('type', False) and request.session.get('step', False):
+		type = request.session.get('type', False)
+		
+
+	ImageFormSet = modelformset_factory(Image,
+ 	                                    form=ImageForm, extra=1)
+
+ 	if request.method == 'POST':
+ 		try:
+ 			claim_id = request.session.claim_id
+ 			claim = Claim.objects.filter(id=claim_id)[0]
+ 		except:
+ 			# TODO: need to add login here!!!
+ 			claim = Claim(user=UserInfo.objects.all()[0])
+ 			claim.save()
+ 			#claim_id = claim.id
+ 		print "here"
+ 		#postForm = PostForm(request.POST)
+ 		formset = ImageFormSet(request.POST, request.FILES,
+ 		                       queryset=Image.objects.none())
+
+ 		if  formset.is_valid(): #postForm.is_valid() and
+
+ 			# add a new claim and link the posted form with claim
+ 			#post_form = postForm.save(commit=False)
+ 			#post_form.save()
+
+ 			for form in formset.cleaned_data:
+ 				# try:
+ 				
+ 				image = form['image']
+ 				photo = Image(image=image,claim=claim)
+ 				photo.save()
+ 			# except:
+ 			#    pass
+ 			# messages.success(request,
+ 			#                 "Yeeew,check it out on the home page!")
+ 			step = request.session.get('step', False)+1
+			step_name = type_step[type][step - 1]
+			img_url = 'img/' + type + '/' + str(step) + '.png'
+
+ 			return render(request, 'imageUpload.html', {'type'     : type,
+		                                            'step'     : step,
+		                                            'step_name': step_name,
+		                                            'img_url'  : img_url,
+		                                            #'postForm': postForm, 
+		                                            'formset': formset,
+		                                            'claim_id':claim.id})
+ 		else:
+ 			print  formset.errors #postForm.errors,
+
+ 			return HttpResponseRedirect('/')
+
+
+ 		# render the next step
+ 		
+
+ 	else:
+ 		#postForm = PostForm()
+ 		formset = ImageFormSet(queryset=Image.objects.none())
+ 	
+	
+	
 
 	if request.session.get('type', False) and request.session.get('step', False):
 		type = request.session.get('type', False)
