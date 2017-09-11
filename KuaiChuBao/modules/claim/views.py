@@ -6,10 +6,10 @@ from KuaiChuBao.settings import BASE_DIR
 
 from django.http import HttpResponse, HttpResponseRedirect
 
-# from .forms import ImageForm, PostForm
-# from django.forms import modelformset_factory
+from .forms import ImageForm, PostForm
+from django.forms import modelformset_factory
 
-from .models import UserInfo
+from .models import UserInfo,Image
 
 
 def landing(request):
@@ -47,6 +47,40 @@ def user_register(request):
 
 
 def image_upload(request):
+
+	ImageFormSet = modelformset_factory(Image,
+ 	                                    form=ImageForm, extra=1)
+
+ 	if request.method == 'POST':
+ 		print "here"
+ 		#postForm = PostForm(request.POST)
+ 		formset = ImageFormSet(request.POST, request.FILES,
+ 		                       queryset=Image.objects.none())
+
+ 		if  formset.is_valid(): #postForm.is_valid() and
+
+ 			# add a new claim and link the posted form with claim
+ 			#post_form = postForm.save(commit=False)
+ 			#post_form.save()
+
+ 			for form in formset.cleaned_data:
+ 				# try:
+ 				image = form['image']
+ 				photo = Image(image=image)
+ 				photo.save()
+ 			# except:
+ 			#    pass
+ 			# messages.success(request,
+ 			#                 "Yeeew,check it out on the home page!")
+ 			return HttpResponseRedirect("/")
+ 		else:
+ 			print  formset.errors #postForm.errors,
+
+ 		return
+
+ 	else:
+ 		#postForm = PostForm()
+ 		formset = ImageFormSet(queryset=Image.objects.none())
 	type_step = {
 		'danche' : ['站在事故车辆前45度角，10米处拍照。如下图：',
 		            '站在事故车辆前45度角，5米处拍照。如下图：',
@@ -104,7 +138,9 @@ def image_upload(request):
 		return render(request, 'imageUpload.html', {'type'     : type,
 		                                            'step'     : step,
 		                                            'step_name': step_name,
-		                                            'img_url'  : img_url})
+		                                            'img_url'  : img_url,
+		                                            #'postForm': postForm, 
+		                                            'formset': formset})
 
 
 def insurance_company(request):
