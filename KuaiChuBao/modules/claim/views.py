@@ -46,6 +46,17 @@ def user_register(request):
 			return HttpResponseRedirect('/claim/upload')
 
 
+def choose_insurace(request):
+
+	if request.method=='POST':
+
+		return return render(request,'ChooseInsurance.html',{'claim_id':claim.id})
+
+	else:
+
+		return render(request,'ChooseInsurance.html',{'claim_id':claim.id})
+
+
 def image_upload(request):
 
 
@@ -77,6 +88,7 @@ def image_upload(request):
 		            '人车合影，站在事故车辆前方或后方，拿手机对准自己和事故车辆拍照，必须照下事故车辆的号牌。如下图：',
 		            '拿出行车证拍照。如下图：',
 		            '拿出驾驶证拍照。如下图：',
+		            '拿出被保险人身份证拍照。如下图：',
 		            '拿出被保险人身份证拍照。如下图：',
 		            '拿出被被保险人银行卡拍照。如下图：'
 		            ],
@@ -141,13 +153,16 @@ def image_upload(request):
 			
 			img_url = 'img/' + type + '/' + str(step) + '.png'
 
- 			return render(request, 'imageUpload.html', {'type'     : type,
+			if step <=len(type_step[type]):
+ 				return render(request, 'imageUpload.html', {'type'     : type,
 		                                            'step'     : step,
 		                                            'step_name': step_name,
 		                                            'img_url'  : img_url,
 		                                            #'postForm': postForm, 
 		                                            'formset': formset,
 		                                            'claim_id':claim.id})
+ 			else:
+ 				return render(request,'ChooseInsurance.html',{'claim_id':claim.id})
  		else:
  			print  formset.errors #postForm.errors,
 
