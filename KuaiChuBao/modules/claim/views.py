@@ -6,10 +6,10 @@ from KuaiChuBao.settings import BASE_DIR
 
 from django.http import HttpResponse, HttpResponseRedirect
 
-from .forms import ImageForm, PostForm
+from .forms import ImageForm, PostForm, InsuranceForm
 from django.forms import modelformset_factory
 
-from .models import UserInfo,Image,Claim
+from .models import UserInfo,Image,Claim,Insurance
 
 
 def landing(request):
@@ -46,15 +46,70 @@ def user_register(request):
 			return HttpResponseRedirect('/claim/upload')
 
 
-def choose_insurace(request):
+def choose_insurance(request):
+
+	InsuranceFormSet = modelformset_factory(Insurance,
+ 	                                    form=InsuranceForm, extra=1)
 
 	if request.method=='POST':
+		try:
+ 			claim_id = request.session.claim_id
+ 			claim = Claim.objects.filter(id=claim_id)[0]
+ 		except:
+ 			# TODO: need to add login here!!!
+ 			claim = Claim(user=UserInfo.objects.all()[0])
+ 			claim.save()
+ 			#claim_id = claim.id
+ 		print "here"
+ 		formset = InsuranceFormSet(request.POST, request.FILES,
+ 		                       queryset=Insurance.objects.none())
 
-		return return render(request,'ChooseInsurance.html',{'claim_id':claim.id})
+ 		if  formset.is_valid(): #postForm.is_valid() and
 
-	else:
+ 			# add a new claim and link the posted form with claim
+ 			#post_form = postForm.save(commit=False)
+ 			#post_form.save()
+
+ 			for form in formset.cleaned_data:
+ 				# try:
+ 				obligatory = form['obligatory']
+ 				tax = form['tax']
+ 				loss = form['loss']
+ 				third_party = form['third_party']
+ 				people_in_car = form['people_in_car']
+ 				stolen_insurance = form['stolen_insurance']
+ 				single_glass_broken  = form['single_glass_broken']
+ 				natural_loss = form['natural_loss']
+				new_add_equip = form['new_add_equip']
+				scratch = form['scratch']
+				engine_water = form['engine_water']
+				while_repair = form['while_repair']
+				cargo = form['cargo']
+				mental_loss = form['mental_loss']
+				franchise = form['frachise']
+				third_party_missing = form['third_party_missing']
+				assign_repair = form['assign_repair']
+				insurance_company = form['insurance_company']
+
+ 				insuranceform = Image(obligatory=obligatory,tax=tax,loss = loss,
+ 					third_party = third_party, people_in_car = people_in_car,
+ 					stolen_insurance = stolen_insurance, single_glass_broken = single_glass_broken,
+ 					natural_loss = natural_loss, new_add_equip = new_add_equip,
+ 					scratch = scratch, engine_water = engine_water, while_repair = while_repair,
+ 					cargo = cargo, mental_loss = mental_loss, franchise = franchise,
+ 					third_party_missing = third_party_missing,assign_repair= assign_repair,
+ 					insurance_company = insurance_company,claim=claim)
+ 				
+ 				insuranceform.save()
+
+
 
 		return render(request,'ChooseInsurance.html',{'claim_id':claim.id})
+
+	else:
+		formset = InsuranceFormSet(queryset=Insurance.objects.none())
+
+		return render(request,'ChooseInsurance.html',{'formset':formset})
 
 
 def image_upload(request):
@@ -111,6 +166,7 @@ def image_upload(request):
 
 	if request.session.get('type', False) and request.session.get('step', False):
 		type = request.session.get('type', False)
+		step = request.session.get('step', False)
 		
 
 	ImageFormSet = modelformset_factory(Image,
@@ -146,14 +202,15 @@ def image_upload(request):
  			#    pass
  			# messages.success(request,
  			#                 "Yeeew,check it out on the home page!")
- 			step = request.session.get('step', False)
- 			step_name = type_step[type][step - 1]
- 			request.session['step']=step+1
- 			print step
-			
-			img_url = 'img/' + type + '/' + str(step) + '.png'
-
 			if step <=len(type_step[type]):
+				step = request.session.get('step', False)
+				step_name = type_step[type][step - 1]
+				request.session['step']=step+1
+				print step
+
+				img_url = 'img/' + type + '/' + str(step-1) + '.png'
+
+			
  				return render(request, 'imageUpload.html', {'type'     : type,
 		                                            'step'     : step,
 		                                            'step_name': step_name,
@@ -162,7 +219,16 @@ def image_upload(request):
 		                                            'formset': formset,
 		                                            'claim_id':claim.id})
  			else:
- 				return render(request,'ChooseInsurance.html',{'claim_id':claim.id})
+
+ 				InsuranceFormSet = modelformset_factory(Insurance,
+ 	                                    form=InsuranceForm, extra=1)
+ 				
+ 				formset = InsuranceFormSet(queryset=Insurance.objects.none())
+
+ 				return render(request,'ChooseInsurance.html',{'claim_id':claim.id,
+ 															'step':step,
+ 															'step_name':'保险信息采集',
+ 															'formset':formset})
  		else:
  			print  formset.errors #postForm.errors,
 
@@ -182,6 +248,8 @@ def image_upload(request):
 	if request.session.get('type', False) and request.session.get('step', False):
 		type = request.session.get('type', False)
 		step = request.session.get('step', False)
+		if step >=len(type_step[type]):
+			step = 1
 		step_name = type_step[type][step - 1]
 		img_url = 'img/' + type + '/' + str(step-1) + '.png'
 
