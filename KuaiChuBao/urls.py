@@ -20,5 +20,5 @@ from KuaiChuBao.modules.claim import urls as claim_urls
 
 urlpatterns = [
 	url(r'^admin/', include(admin.site.urls)),
-	url(r'^claim/', include(claim_urls)),
+	url(r'^claim/', include(claim_urls,namespace='claim')),
 ]

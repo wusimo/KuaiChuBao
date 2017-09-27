@@ -3,10 +3,11 @@ from __future__ import unicode_literals
 
 from django.contrib import admin
 
-from .models import Claim, UserInfo, InsuranceCompany, Image, Location
+from .models import Claim, UserInfo, InsuranceCompany, Image, Location,Insurance
 
 admin.site.register(Claim)
 admin.site.register(UserInfo)
 admin.site.register(InsuranceCompany)
 admin.site.register(Image)
+admin.site.register(Insurance)
 
